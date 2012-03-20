@@ -4,9 +4,9 @@ Híradástechnika laborhoz pylab-os programok
 A programok a pylab (matplotlib + numpy) csomagok telepítése mellett
 működnek Python2.x alatt. Ezek a programok telepítésre kerültek egy
 `Lubuntus virtuális gépbeni <http://django.arek.uni-obuda.hu/lubuntu>`_,
-mely VirtuálBox-szal rögtön használható.
+mely VirtualBox-szal rögtön használható.
 
-A programok telepítéséhez ennyi kell::
+A programok telepítéséhez ennyi kell terminál indítása után::
 
   git pull http://github.com/horvatha/pyHLAB
 
@@ -20,7 +20,7 @@ Az említett virtuális gépben az alábbi aliassal is lehet::
 
   pylab
 
-Az ipythonon belül már importálhatóak a modulok::
+Az ipythonon belül már importálhatóak és használhatóak a modulok::
 
   import sorok
 
