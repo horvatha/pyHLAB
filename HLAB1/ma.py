@@ -1,106 +1,104 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-"""       RLC négypólus elemzése
+"""       RLC nÃ©gypÃ³lus elemzÃ©se
 """
 
 from __future__ import division
 from __future__ import print_function
+from pylab import *
 
 __author__ = 'Arpad Horvath'
 
 
 #(DEFAULT:R=500,L=100mH,C=100nF,A=1; pp=4; rfreq=1)
 #
-########RLC négypólus paraméterek #
+########RLC nÃ©gypÃ³lus paramÃ©terek #
 #
-R = 0.5*10^3;          #500 ohm
-L = 1.0*10^-1;         #100 mH
-C = 1.0*10^-7;         #100 nF
+R = 0.5e3;          #500 ohm
+L = 1.0e-1;         #100 mH
+C = 1.0e-7;         #100 nF
 A = 1
 #
 ##################################
-T = sqrt(L.*C)
-omegac = 1./T
-fcorner = omegac./(2.*pi)
-kszi = 0.5*R.*C./T
-Q = 1./(2.*kszi)
-print("kszi = {kszi}, Q = {Q}".format(kszi=kszi, Q=Q))
+T = sqrt(L*C)
+omegac = 1/T
+fcorner = omegac/(2*pi)
+xi = 0.5*R*C/T
+Q = 1/(2*xi)
+print("xi = {xi}, Q = {Q}".format(xi=xi, Q=Q))
 ##################################
 #      FREQUENCY DOMAIN 
 ##################################
-wmax = omegac.*10^3
-d = wmax./10^5
-omega  =  d:d:wmax
-phc = 80./pi;                    #pi <=== 80 dB (lépték)
-q = A./(1.+i*omega.*T./Q-omega.^2.*T.^2);          #transfer function
-Y = 20*log10(abs(q));            #BODE amplitudó
-PH = phc.*angle(q);              #BODE fázis
-subplot(2,1,1);  plot(omega,Y,'k.',omega,PH,'m--')
-axis([d wmax -80 20])
-set(gca,'XScale','log','YScale','linear')
-set(gca,'XGrid','on','YGrid','on')
-set(gca,'XColor','blue','YColor','blue')
-legend ('absY','\phi(\omega)')
-xlabel '\omega [rad/s]'
-ylabel 'absY(j\omega)  [dB]'
-title 'MA BODE-jelleggörbék'
+wmax = omegac*1e3
+d = wmax/1e5
+omega  =  arange(d,wmax,d)
+phc = 80/pi                    #pi <=== 80 dB (lÃ©ptÃ©k)
+q = A/(1.+1j*omega*T/Q-omega**2*T**2)          #transfer function
+Y = 20*log10(abs(q))            #BODE amplitudÃ³
+PH = phc*angle(q)              #BODE fÃ¡zis
+subplot(2,1,1)
+semilogx(omega,Y,'k.',omega,PH,'m--')
+axis([d,wmax,-80,20])
+grid(True)
+legend(['absY','\phi(\omega)'])
+xlabel('\omega [rad/s]')
+ylabel('absY(j\omega)  [dB]')
+title('MA BODE-jelleggÃ¶rbÃ©k')
 
 ##################################################
 #               TIME DOMAIN
 ##################################################
-pp = 4;                     #kirajzolt periódusszám, rfreq=1 esetén
-# Tkp. az oszcilloszkóp idõalapjának beállítása!
+pp = 4    #kirajzolt periÃ³dusszÃ¡m, rfreq=1 esetÃ©n
+# Tkp. az oszcilloszkÃ³p idÅ‘alapjÃ¡nak beÃ¡llÃ­tÃ¡sa!
 #
-SimTime = pp./fcorner;       #simulation time [s]
-N = 1000;                    #sampling point number
-Ts = SimTime./N             #sampling period
+SimTime = pp/fcorner       #simulation time [s]
+N = 1000                   #sampling point number
+Ts = SimTime/N             #sampling period
 
-#gyökök az 'S' síkon
-k = Ts.*fcorner
+#gyÃ¶kÃ¶k az 'S' sÃ­kon
+k = Ts*fcorner
 
-root1 = k.*(-kszi+sqrt(kszi^2-1))
-root2 = k.*(-kszi-sqrt(kszi^2-1))
-B = 2.*exp(2.*pi.*real(root1))*cos(2.*pi.*imag(root1))
-C = -exp(4.*pi.*real(root1))
+root1 = k*(-xi+sqrt(xi**2-1))
+root2 = k*(-xi-sqrt(xi**2-1))
+B = 2*exp(2*pi*real(root1))*cos(2*pi*imag(root1))
+C = -exp(4*pi*real(root1))
 K = 1-B-C
 
 AM = 0
 BM = 0
 
-xb = zeros(1,N+1)
-xk = zeros(1,N+1)
+xb = zeros(N+1)
+xk = zeros(N+1)
 
-# A vizsgálójel paraméterei
+# A vizsgÃ¡lÃ³jel paramÃ©terei
 rfreq = 10
-#jelfrekvencia = törésponti frekv.*rfreq 
-#a jelgenerátor vizsgálójelének frekvenciája.
-####%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-samp = 1;         %csúcsérték amplitudója  [V]
-%
- t = 1:1:N+1
-%%%%%%%%%%%%%%%%  bemenõjel típus választás! %%%%%%%
-%négyszög
-xb(1,t) = samp.*sign(sin((t-1).*rfreq.*pp.*2.*pi./(N)))
-%xb(1,t) = samp.*sin((t-1).*rfreq.*pp.*2.*pi./(N))
-%szinuszos
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-for t = 1:1:N+1
-    xk(1,t) = K.*A.*xb(1,t)+B.*AM+C.*BM
+#jelfrekvencia = tÃ¶rÃ©sponti frekv*rfreq
+#a jelgenerÃ¡tor vizsgÃ¡lÃ³jelÃ©nek frekvenciÃ¡ja.
+########################################################
+samp = 1         #csÃºcsÃ©rtÃ©k amplitudÃ³ja  [V]
+
+t = arange(N+1)
+################  bemenÅ‘jel tÃ­pus vÃ¡lasztÃ¡s! #######
+#nÃ©gyszÃ¶g
+xb = samp*sign(sin((t-1)*rfreq*pp*2*pi/(N)))
+#xb = samp*sin((t-1)*rfreq*pp*2*pi/(N))
+#szinuszos
+####################################################
+for t in range(N+1):
+    xk = K*A*xb+B*AM+C*BM
     BM = AM
-    AM = xk(1,t)
-end
-L = 1:1:N+1
-subplot(2,1,2);  plot(L,xb,'m',L,xk,'k')
-gmx = samp.*3
+    AM = xk
+L = arange(N+1)
+subplot(2,1,2)
+plot(L,xb,'m',L,xk,'k')
+gmx = samp*3
 gmin = -gmx
 
-axis([1 N+1 gmin gmx])
-set(gca,'XScale','linear','YScale','linear')
-set(gca,'XGrid','on','YGrid','on')
-set(gca,'XColor','blue','YColor','blue')
-legend ('in','out')
-xlabel 't: *Ts  [s]'
-xlabel 'u  [V]'
-title 'MA jelátvitel'
+axis([1,N+1,gmin,gmx])
+grid(True)
+legend(['in','out'])
+xlabel('t: *Ts  [s]')
+xlabel('u  [V]')
+title('MA jelÃ¡tvitel')
 
