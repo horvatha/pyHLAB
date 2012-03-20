@@ -7,7 +7,7 @@ You can run as a standalone script or import from ipython
 with the -pylab option.
 
 >>> import t_fdomain
->>> plot_spectrum()
+>>> t_fdomain.plot_spectrum("sinus")
 """
 
 from pylab import pi, exp, sin, log10, sign, randn
@@ -19,13 +19,14 @@ import sys
 def plot_spectrum(signal):
     """Plots a signal and its spectrum
 
-    signal can be a number an abbreviation or an experssion:
+    signal can be a number an abbreviation or an expression:
 
     1 = "wn"    = white noise
-    2 = "sinus"   = periodic sinusoidal waveform
+    2 = "sinus" = periodic sinusoidal waveform
     3 = "rect"  = periodic rectangular pulses
-    4 = "dsin"  = dumped sinusoidal waveform
-    5 = "drect" = dumped rectangular waveform
+    4 = "dsin"  = damped sinusoidal waveform
+    5 = "drect" = damped rectangular waveform
+    6 = "bits"  = random bit sequence
 
     expression can be an expression of the abbreviations
     like:
@@ -41,16 +42,16 @@ def plot_spectrum(signal):
     S = N//D                      #bit stream lenght
     x = pylab.arange(N)
 
-    ##########################################################
-    #                 INPUT SIGNAL
-    ##########################################################
+    """
+                    INPUT SIGNALS
+    """
     #  1. Random signal I. White noise
     wn = 0.5 * randn(pylab.size(x))
-    #  2. Deterministic, periodic sinosoidal waweform
+    #  2. Deterministic, periodic sinosoidal waveform
     sinus = sin(x * 2 * D * pi/N)
     #  3. Deterministic, periodic sequence of rectangular pulses
     rect = sign(sin(x * 2 * D * pi/(N+1)))
-    #  4. Deterministic, nonperiodic sinosoidal waweform
+    #  4. Deterministic, nonperiodic sinosoidal waveform
     dsin = exp(-0.005 * x) * sin(x * 2 * D * pi/N)
     dsinus = dsin
     #  5. Deterministic, damped sequence of rectangular pulses
@@ -62,20 +63,19 @@ def plot_spectrum(signal):
         bits.extend([value]*D)
     bits = pylab.array(bits)
 
-    ##########################################################
     if isinstance(signal, int):
         signal = ["wn", "sinus", "rect",
                 "dsin", "drect", "bits"][signal-1]
     signal = eval(signal)
 
-    ##########################################################
-    #                SPECTRUMs
-    ##########################################################
+    """
+                   SPECTRUMs
+    """
     ww = range(N)
-    #
+
     X = pylab.fft(signal, N)
     XX = 20 * log10(abs(sys.float_info.min+X/N))
-    #
+
     pylab.subplots_adjust(hspace=.4) #See tight space
     pylab.subplot(2, 1, 2)
     pylab.plot(ww, XX, "-")
@@ -84,7 +84,7 @@ def plot_spectrum(signal):
     ylabel ('absY($j\omega$)  [dB]')
     pylab.title('Frequency domain')
     grid(True)
-    #
+
     pylab.subplot(2, 1, 1)
     pylab.plot(ww, signal, "-")
     axis([1, N/4, -1.5, 1.5])

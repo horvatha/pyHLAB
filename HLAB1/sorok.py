@@ -18,7 +18,7 @@ def sor_abra(tipus=None, nn=None):
     """Kirajzolja különböző Fourier-sorok közelítő összegeit.
 
     Paraméterek:
-        tipus: sztring
+        tipus: sztring vagy egész
             lehet  1: "fűrészfog" 2: "négyszög" vagy 3: "háromszög"
         nn: lista
             hányadik közelítő összegeket rajzolja
