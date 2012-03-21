@@ -14,7 +14,7 @@ tagok = {
     "háromszög" : lambda i, x: 8/pi**2*(-1)**((i-1)/2)/i**2*sin(i*x) if i%2 == 1 else 0,
 }
 
-def sor_abra(tipus=None, nn=None):
+def sor_abra(tipus=None, nn=None, samples=1024):
     """Kirajzolja különböző Fourier-sorok közelítő összegeit.
 
     Paraméterek:
@@ -32,14 +32,16 @@ def sor_abra(tipus=None, nn=None):
     if nn is None:
         nn = [1, 5, 10, 50]
 
-    x=pylab.linspace(-pi, 3*pi, 1000)
+    x=pylab.linspace(-pi, 3*pi, samples)
     for n in nn:
-        y=pylab.zeros(1000)
+        signal=pylab.zeros(samples)
         for i in range(1,n+1):
-            y+=tagok[tipus](i,x)
+            signal+=tagok[tipus](i,x)
         if n == nn[-1]:
-            plot(x,y, "-k", hold=True, label="n=%d"%n)
+            plot(x,signal, "-k", hold=True, label="n=%d"%n)
         else:
-            plot(x,y, ":", hold=True, label="n=%d"%n)
+            plot(x,signal, ":", hold=True, label="n=%d"%n)
     pylab.legend(loc="lower right")
     pylab.title(tipus.decode("utf-8"))
+    return signal
+
