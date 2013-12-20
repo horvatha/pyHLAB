@@ -1,0 +1,315 @@
+========================================
+Híradástechnika labor - Pylab használata
+========================================
+
+A Pylab (a MATLAB-hoz) hasonlóan egy mátrixalgebrai rendszer. A mátrix
+lényegében egy számtáblázatot, amelynek n sora és m oszlopa van, azt
+nxm-es (n-szer m-es) mátrixnak nevezzük. Az olyan mátrixok, amelynek
+egyetlen sora van, elegendőek a függvények kirajzoltatásához.
+
+A Pylab egy Python nyelven megvalósított MATLAB-szerű eszköz.
+
+
+A IPython parancssor használata
+---------------------------------
+
+A héten olyan utasításokkal fogunk foglalkozni, amelyek többnyire
+változatlanul használhatóak MATLAB-ban is.
+
+Az utasításokat többnyire az IPython parancsértelmezőbe fogják beírni.
+Az IPython a terminálból az alábbi módok egyikével hívva rögtön betölti
+a pylab modult, azaz a MATLAB-hoz hasonló függvényeket és változókat::
+
+    ipython3 --pylab
+
+    vagy 
+
+    pylab
+
+Az IPython a sor végén az Újsort leütve rögtön végrehajtja a beír
+parancsokat. Pl::
+
+    print(3*6)  # Végén Újsor
+
+Kiírja a 18-at.
+
+A korábban beírt parancsok visszahozásához használhatják a felfele
+gombot. Amennyiben a sor egy részét már beírták, csak az olyan kezdetű
+sorok között lépked a felfele gomb.
+
+A Python nyelv behúzásokkal tagol, emiatt nem kellenek a C-ben megszokott
+kapcsos zárójelek, de a behúzásokra nagyon kell ügyelni. A legfelső
+szint utasításait nem szabad behúzni. Az egyes vezérlési szerkezetek
+belsejét (ciklusmag, if- vagy else-ág, függvénydefiníció belseje)
+viszont beljebb kell kezdeni.
+
+Az IPythonnak, ha függvénydefiníciót, feltételes elágazást vagy ciklust
+kezdtünk, automatikusan beljebb kezdi a következő sort. Amikor a
+behúzott résszel végeztünk pár <Újsor>-ral adjuk tudtára a
+parancsértelmezőnek, hogy nem akarunk többet írni. Próbáljuk ki az
+alábbi példán::
+
+    for i in [4, 3.14, 2j]:
+        print(i, i*i)
+
+A függvény és változónevek kiegészítéséhez használhatják a Tab-ot.
+
+Az IPython Notebook használata
+---------------------------------
+
+A http://django.arek.uni-obuda.hu:8888 oldalra bejelentkezve a megfelelő
+jelszóval a parancssori IPythonhoz hasonló rendszeren tud gyakorolni.
+
+A főbb különbségek:
+
+Egy notebookot (jegyzettömböt) kell létrehozniuk ha dolgozni akarnak,
+vagy egy létezőt tudnak folytatni. A notebookok elnevezési szokásaival
+kapcsolatban olvassa el az említett oldalon a 00_README notebookot.
+
+A Notebookban az Enter csupán új sort nyit a szövegdobozban. A
+Shift-Enter hajtja végre a szövegdobozban található kódot. Az egyes
+notebookokban a parancsvégrehajtás eredményei is eltárolódnak.
+
+Az egyes blokkok hosszabbak lehetnek, mint a parancssorban. Egy blokkban
+több értékadás vagy függvénydefiníció is szerepelhet a Notebookban, míg
+parancssorban minden egyes utasítás, függvénydefiníció vagy ciklus
+rögtön végrehajtódik.
+
+A Python nyelv
+----------------
+
+A Python nyelvet többek között a fent említett :8888 végű Notebook
+weboldalon szereplő alábbi notebookokból sajátíthatja el:
+
+- 01 Python adattípusok, értékadás, függvényhívás
+- 02 Python vezérlési szerkezetek és függvények létrehozása
+- 03 Python modulok importálása
+
+Az ezekről készített másolatokon kísérletezhet is. De tényleg csak a
+másolatokon!
+
+A Python hivatalos oldalának tutorialja is hasznos:
+http://docs.python.org/3/tutorial/
+
+A Pylab használatáról bővebben a http://matplotlib.org/ oldalon olvashat. 
+(A matplotlib és numpy modulokra épül az általunk használt pylab modul.)
+
+
+Függvényrajzolás
+---------------------
+
+A plot utasítást meghívhatjuk egy, kettő vagy több paraméterrel is.
+Amennyiben két paraméterrel hívjuk meg, az elsőben kell lennie az
+x-koordinátáknak, a másikban az y-koordinátáknak.
+
+Például, ha
+
+        x = [1, 3, 5]
+        y = [4, 2, 0]
+
+akkor a függvény az (1,4), (3,2) és (5,0) pontokon fog átmenni.
+
+A Pythonban és a MATLAB-ban az = jel az értékadást jelöli: a jobb oldal
+értékét veszi fel a bal oldali változó értéke. (Pythonban bonyolultabb a
+helyzet, de első közelítésnek megfelel.) A továbbiakban, ahol a jobb
+oldali sorvektorokat használnánk, írhatunk egyszerűen x-et illetve y-t.
+
+A 
+
+    plot(x, y)
+
+utasítás ezeket a pontokat fogja egyenessel összekötni. A harmadik
+paraméterben megadhatjuk, hogy milyen módon rajzolja ki a függvényt. Az
+alábbiak sorrendben kettősponttal, illetve szaggatott vonallal rajzolja
+ki.
+
+    plot(x, y, ':')
+    plot(x, y, '--')
+
+A formátumot mindig idézőjelbe rakjuk. (A Pythonban használhatnánk a
+dupla idézőjelet is sztring megadásához, a MATLAB-ban kötelező az
+egyszeres.)
+
+Más esetben csak a pontokat szeretnék ábrázolni. Az alábbi esetben
+például ponttal, karikával vagy ikszekkel ábrázoljuk a pontokat.
+
+    plot(x, y, '.')
+    plot(x, y, 'o')
+    plot(x, y, 'x')
+
+A vonaltípus, vagy ponttípus megadása mellett a színt is megadhatjuk, ha
+elé írjuk a szín angol rövidítését. Pár rövidítés:
+
+r piros
+g zöld
+b kék
+c cián
+y sárga
+k fekete (itt nem az angol kezdőbetű van!)
+
+Később is lesz jelentősége, hogy a Pylab-ban a sorszámozás 0-tól, a
+MATLAB-ban 1-től kezdődik. Ha az x értékeket elhagyom, akkor az első
+y-értéket a 0 fölé, a másodikat az 1 fölé rajzolja és így tovább.
+Mivel az y értékek:
+
+        y = [4, 2, 0]
+ 
+A
+
+        plot(y)
+
+utasítás tehát a (0,4), (1,2) és (2,0) értékeket fogja kirajzolni.
+MATLAB-ban eggyel jobbra tolva ábrázolná: a (1,4), (2,2), (3,0)
+pontokat.
+
+Feladat: Rajzoljon ki egy csúcsán álló négyzetet!
+        (A négyzetet úgy értjük, hogyha egyforma lenne a két tengelyen
+        az egység, akkor négyzet lenne. Akkor is négyzetnek számít, ha a
+        két tengely különböző beosztása miatt téglalapnak vagy
+        rombusznak látszik.)
+
+Feladat: Vajon mit fognak csinálni az alábbi utasítások?
+
+        plot(y, '+')
+        plot(x, 'v')
+
+Egy színusz függvény kirajzolásához sok pont kirajzolása kell. Ehhez az
+x értékeket például a linspace függvénnyel hozhatjuk létre.
+
+A linspace két érték között adott számú beosztást készít egyenletesen
+elosztva. A három fontos paramétere sorrendben: mettől, meddig, hány
+érték legyen.
+
+        x = linspace(0, 3*pi, 1000)
+
+A fenti sorban tehát olyan sorvektort hoz létre, amelynek első eleme
+nulla, az utolsó a pi érték háromszorosa, és ezer értéket tartalmaz.
+
+A Pylab és a MATLAB egy halom függvényt tartalmaz.  Ezek a függvények
+sorvektorra (vagy akár mátrixra) alkalmazva új sorvektort hoznak létre,
+amelyben a megfelelő elemek megfelelő függvényei szerepelnek.
+
+
+        y = sin(x)
+
+után tehát az y-ban sorban a megfelelő x értékek szinuszai szerepelnek.
+A szinusz-függvény kirajzolásához tehát az alábbi két sor bármelyike
+megfelelő:
+
+        plot(x, y)
+        plot(x, sin(x))
+
+Feladat: A sorvektorokkal műveleteket is végezhetünk. Próbáljuk meg kitalálni,
+hogyan ábrázolhatjuk az f(x) = sin(x) + 5 függvényt?
+
+Megoldás:
+
+        plot(x, sin(x) + 5)
+
+De most ez is működik:
+
+        plot(x, y + 5)
+
+Feladat: Feltételezve az alábbi értékeket,
+
+        x = linspace(0, 3*pi, 1000)
+        y = sin(x)
+
+mi történik az alábbi esetekben?
+
+        plot(x + pi, y)
+        plot(x)
+        plot(x, x + 3)
+
+A kirajzolás után tudjuk módosítani a grafikont. Megváltoztathatjuk a
+tengelyek határait, címet adhatunk a grafikonnak, az x- és
+y-tengelyeknek, valamint jelmagyarázatot adhatunk a grafikonhoz a
+következő függvényekkel:
+ylim, xlim, title, xlabel, ylabel, legend.
+
+Egy példa, amit kipróbálva, változtatgatva a paramétereket, megnézve a
+függvények leírását, próbáljanak értelmezni:
+
+        plot(x, sin(x))
+        plot(x, cos(x))
+        ylim(-1, 1)
+        title('szögfüggvények')
+        xlabel('x (radián)')
+        ylabel('y')
+        legend(['sin', 'cos'], loc="upper left")
+
+
+Végül az ábrát elmenthetjük egy fájlba valamilyen képformátumban (png,
+pdf, svg...).
+
+        savefig("szogfuggveny.png")
+
+A zeros függvény nullákkal feltöltött sorvektort (vagy más alakú
+mátrixot) hoz létre, a rand függvény véletlen számokból álló sorvektort
+(mátrixot).
+
+Példa:
+
+        zeros(9)
+        plot(rand(8), 'x')
+
+Műveletek és függvények a Pylabban/MATLAB-ban
+------------------------------------------------
+
+A művelet jelei általában megegyeznek a matematikaórán használtakkal:
++ - * /
+A hatványozásra sajnos a Python és a MATLAB más jelölést használ, x
+köbét így írhatjuk:
+x**3  Python
+x^3   MATLAB
+
+Ezeket Pylabban sorvektorokra is úgy használhatjuk, hogy elemenként
+végzi el a műveletet. Ehhez viszont a Python saját adattípusait, a
+listákat, sorvektorokká kell alakítani.
+
+        x = [1, 3, 5]
+        y = [4, 2, 0]
+        x = array(x)
+        y = array(y)
+
+A linspace, a zeros, a rand és egyéb függvények sorvektorokat (illetve
+mátrixokat) hoznak létre, azokat nem kell átalakítani.
+
+Feladat: Mi lesz az x+y, x*y, x-y, x/y értéke?
+  Próbáljuk meg kitalálni illetve kiiratni.
+
+
+Pár függvényt sorol fel az alábbi táblázat.
+
+sqrt  | négyzetgyök
+sin   | szinusz
+cos   | koszinusz
+tan   | tangens
+exp   | exponenciális függvény (az alap e=2.717....)
+log   | természetes logaritmus (alapja e)
+log2  | kettes alapú logaritmus
+log10 | tizes alapú logaritmus 
+floor | lefelé kerekít
+ceil  | felfelé kerekít
+sign  | előjel függvény (1, ha pozitív, -1, ha negatív, 0 ha 0 az érték)
+
+A szögfüggvények argumentuma radiánban értendő. Az e-vel jelölt fontos
+matematikai szám, amely közelítőleg 2,717, majd analízisben tanulnak
+hamarosan, és sok helyen előfordul majd.
+
+Feladat: Próbáljanak kirajzoltatni egy félkört! Több mód is van rá.
+
+Feladat: Mutassák meg, ha egy másfélnél kisebb abszolút értékű szám
+  értékéből kivonják a szám köbének hatodát, akkor jó közelítéssel a
+  szinuszát kapják.
+
+Feladat: Rajzoltassanak ki valami szépet!
+
+Feladat: Próbáljanak kirajzoltatni egy négyszögjel egy részletét.
+  Egy példa négyszögjelre: értéke
+     a [0, 1[ intervallumban -1,
+     az [1,2[ intervallumban 1,
+     és 2 a periódusa.
+
+Feladat: Próbáljanak kirajzoltatni egy szabályos hétszöget!
+
