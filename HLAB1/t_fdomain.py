@@ -6,8 +6,8 @@
 You can run as a standalone script or import from ipython
 with the -pylab option.
 
->>> import t_fdomain
->>> t_fdomain.plot_spectrum("sinus")
+>>> from t_fdomain import *
+>>> plot_spectrum("sinus")
 """
 
 from pylab import pi, exp, sin, log10, sign, randn
@@ -33,7 +33,7 @@ def plot_spectrum(signal):
 
       "wn + 0.5*dsin"
 
-    >>> import t_fdomain
+    >>> from t_fdomain import *
     >>> plot_spectrum("rw")
     >>> plot_spectrum(5)
     """
@@ -79,7 +79,7 @@ def plot_spectrum(signal):
     pylab.subplots_adjust(hspace=.4) #See tight space
     pylab.subplot(2, 1, 2)
     pylab.plot(ww, XX, "-")
-    axis([1, N/8, -100, 0])
+    pylab.xlim(1, N/8)
     xlabel ('f [Hz]')
     ylabel ('absY($j\omega$)  [dB]')
     pylab.title('Frequency domain')
@@ -87,7 +87,7 @@ def plot_spectrum(signal):
 
     pylab.subplot(2, 1, 1)
     pylab.plot(ww, signal, "-")
-    axis([1, N/4, -1.5, 1.5])
+    pylab.xlim(1, N/4)
     xlabel ('t  [x0.25 ms]')
     ylabel ('u(t)  [V]')
     pylab.title('Time domain')
