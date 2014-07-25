@@ -1,10 +1,9 @@
-Híradástechnika laborhoz pylab-os programok
+ Híradástechnika laborhoz pylab-os programok
 =============================================
 
 A programok a pylab (matplotlib + numpy) csomagok telepítése mellett
-működnek Python2.x alatt. Ezek a programok telepítésre kerültek egy
-`Lubuntus virtuális gépbeni <http://django.arek.uni-obuda.hu/lubuntu>`_,
-mely VirtualBox-szal rögtön használható.
+működnek Python2 és talán Python3 alatt. Ezek a programok telepítésre kerültek egy
+virtuális gépben mely VirtualBox-szal rögtön használható.
 
 A programok telepítéséhez ennyi kell terminál indítása után::
 
@@ -14,7 +13,7 @@ Az ipythont a pylab opcióval indítsuk abban a könyvtárban, ahol a
 használandó fájljaink vannak::
 
   cd adott_konyvtar     # belépés a megfelelő könyvtárba
-  ipython -pylab
+  ipython3 --pylab
 
 Az említett virtuális gépben az alábbi aliassal is lehet::
 
